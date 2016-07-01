@@ -50,7 +50,7 @@ public class Main {
     TypePool typePool = TypePool.Default.of(Main.class.getClassLoader());
 
     new AgentBuilder.Default()
-        //.disableClassFormatChanges()
+        .disableClassFormatChanges()
         .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
         .with(new SysOutListener())
         .ignore(none())
