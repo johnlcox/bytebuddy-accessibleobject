@@ -13,6 +13,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.leacox.example.bytebuddy</groupId>
+      <artifactId>accessibleobject-instrumentation</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
       <version>1.4.6</version>
