@@ -9,9 +9,15 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>accessibleobject-instrumentation</artifactId>
+  <artifactId>accessibleobject-instrumentation-definitions</artifactId>
 
   <dependencies>
+    <dependency>
+      <groupId>com.leacox.example.bytebuddy</groupId>
+      <artifactId>accessibleobject-instrumentation</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
@@ -19,26 +25,5 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
-  <!--<build>-->
-  <!--<plugins>-->
-    <!--<plugin>-->
-      <!--<groupId>org.apache.maven.plugins</groupId>-->
-      <!--<artifactId>maven-shade-plugin</artifactId>-->
-      <!--<version>2.4.3</version>-->
-      <!--<configuration>-->
-        <!--&lt;!&ndash; put your configurations here &ndash;&gt;-->
-      <!--</configuration>-->
-      <!--<executions>-->
-        <!--<execution>-->
-          <!--<phase>package</phase>-->
-          <!--<goals>-->
-            <!--<goal>shade</goal>-->
-          <!--</goals>-->
-        <!--</execution>-->
-      <!--</executions>-->
-    <!--</plugin>-->
-  <!--</plugins>-->
-<!--</build>-->
 
 </project>
