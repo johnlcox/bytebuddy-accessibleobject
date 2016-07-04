@@ -5,6 +5,6 @@ package com.leacox.example.bytebuddy;
  */
 public class Foo {
   private void inAccessibleMethod() {
-    System.out.print("inAccessibleMethod executed");
+    System.out.println("inAccessibleMethod executed");
   }
 }

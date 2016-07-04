@@ -10,8 +10,11 @@ import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.ClassFileLocator;
 import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.implementation.InvokeDynamic;
 import net.bytebuddy.implementation.MethodCall;
 import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.auxiliary.MethodCallProxy;
+import net.bytebuddy.implementation.bytecode.member.MethodInvocation;
 import net.bytebuddy.pool.TypePool;
 
 import java.io.File;
@@ -36,6 +39,13 @@ public class Main {
     Method method = foo.getClass().getDeclaredMethod(methodName);
     method.setAccessible(true);
     method.invoke(foo);
+
+    try {
+      method.setAccessible(false);
+      throw new RuntimeException("Expected a security exception");
+    } catch (SecurityException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   private static void instrument() throws Exception {
@@ -78,18 +88,7 @@ public class Main {
             return builder.method(named("setAccessible").and(takesArguments(boolean.class)))
                 .intercept(MethodDelegation.to(
                     typePool.describe("com.leacox.example.bytebuddy.instrument.java.lang.reflect.SetAccessibleImplementation").resolve()
-                ));
-          }
-        })
-        .type(named("com.leacox.example.bytebuddy.instrument.java.lang.reflect.SetAccessibleImplementation"))
-        .transform(new AgentBuilder.Transformer() {
-          @Override
-          public DynamicType.Builder<?> transform(
-              DynamicType.Builder<?> builder, TypeDescription typeDescription,
-              ClassLoader classLoader) {
-            return builder.method(named("setAccessible1"))
-                .intercept(
-                    MethodCall.invoke(new MethodDescription.ForLoadedMethod(setAccessible0Method)).withAllArguments());
+                ).andThen(MethodCall.invoke(setAccessible0Method).withThis().withAllArguments()));
           }
         })
         .installOnByteBuddyAgent();
